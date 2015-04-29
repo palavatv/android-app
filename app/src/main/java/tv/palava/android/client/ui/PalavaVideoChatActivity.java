@@ -32,7 +32,7 @@ public class PalavaVideoChatActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_palavavideochat);
         if (savedInstanceState == null) {
-            getFragmentManager().beginTransaction().add(R.id.fragment_videochat, new ChatFragment())
+            getFragmentManager().beginTransaction().add(R.id.container, new ChatFragment())
                     .commit();
         }
 
@@ -89,15 +89,16 @@ public class PalavaVideoChatActivity extends Activity {
             palavaWebRTCView.setWebChromeClient(new WebChromeClient() {
                 @Override
                 public void onPermissionRequest(final PermissionRequest request) {
-                    Log.d(TAG, "onPermissionRequest");
+                    Log.d(TAG, "processing onPermissionRequest: " + request.getResources().toString());
                     getActivity().runOnUiThread(new Runnable() {
                         @TargetApi(Build.VERSION_CODES.LOLLIPOP)
                         @Override
                         public void run() {
-                            if (request.getOrigin().toString().equals(ROOT_URL + ((PalavaVideoChatActivity) getActivity()).getRoomId())) {
+                            if (request.getOrigin().toString().contains(ROOT_URL)) {
                                 request.grant(request.getResources());
                             } else {
                                 request.deny();
+                                Log.e(TAG, "Origin unknown: " + request.getOrigin() + "\n" + request.getResources());
                             }
                         }
                     });
