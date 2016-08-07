@@ -26,7 +26,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="tv.palava.android.client.ui.PalavaVideoChatActivity"></activity>
+        <activity
+            android:name="tv.palava.android.client.ui.PalavaVideoChatActivity"
+            android:configChanges="orientation|screenSize">
+        </activity>
     </application>
 
 </manifest>
